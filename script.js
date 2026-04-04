@@ -1,7 +1,7 @@
 const menuToggle = document.getElementById('menuToggle');
 const mainNav = document.getElementById('mainNav');
 const yearEl = document.getElementById('year');
-const logoEls = document.querySelectorAll('.logo-img');
+const logoEls = document.querySelectorAll('.logo-phoenix');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -22,15 +22,23 @@ if (menuToggle && mainNav) {
 
 if (!reduceMotion && logoEls.length) {
   let ticking = false;
+  let lastY = window.scrollY || window.pageYOffset;
+  let boostTimer;
 
   const animateLogoOnScroll = () => {
     const scrollY = window.scrollY || window.pageYOffset;
-    const move = Math.min(scrollY * 0.08, 10);
-    const rotate = Math.sin(scrollY * 0.01) * 5;
+    const delta = Math.abs(scrollY - lastY);
+    const boost = Math.min(10, delta * 0.35);
+    lastY = scrollY;
 
     logoEls.forEach((logo) => {
-      logo.style.transform = `translateY(${move}px) rotate(${rotate}deg) scale(1.02)`;
+      logo.style.setProperty('--flap-boost', `${boost.toFixed(2)}deg`);
     });
+
+    window.clearTimeout(boostTimer);
+    boostTimer = window.setTimeout(() => {
+      logoEls.forEach((logo) => logo.style.setProperty('--flap-boost', '0deg'));
+    }, 180);
 
     ticking = false;
   };

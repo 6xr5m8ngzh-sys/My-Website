@@ -53,20 +53,80 @@ a { color: inherit; text-decoration: none; }
   gap: 0.65rem;
 }
 
-.logo-img {
+.logo-phoenix {
   width: 44px;
   height: 44px;
-  object-fit: contain;
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
   border-radius: 10px;
   border: 1px solid var(--line);
   background: #fff;
+  overflow: hidden;
   transform-origin: center;
-  will-change: transform, filter;
-  transition: filter 240ms ease;
+  will-change: transform;
+  --flap-boost: 0deg;
+  --hover-boost: 0deg;
+  animation: phoenix-float 3.6s ease-in-out infinite;
 }
 
-.brand:hover .logo-img {
+.logo-core,
+.logo-wing {
+  position: absolute;
+  inset: 0;
+  background-image: url("assets/logo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.logo-core {
+  clip-path: polygon(30% 0, 70% 0, 76% 100%, 24% 100%);
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5));
+}
+
+.logo-wing {
+  will-change: transform;
+}
+
+.wing-left {
+  clip-path: polygon(0 0, 58% 0, 53% 100%, 0 100%);
+  transform-origin: 72% 58%;
+  animation: wing-left-flap 1.25s ease-in-out infinite;
+}
+
+.wing-right {
+  clip-path: polygon(42% 0, 100% 0, 100% 100%, 47% 100%);
+  transform-origin: 28% 58%;
+  animation: wing-right-flap 1.25s ease-in-out infinite;
+}
+
+.brand:hover .logo-phoenix {
+  --hover-boost: 4deg;
   filter: saturate(1.15) drop-shadow(0 6px 12px rgba(123, 74, 58, 0.25));
+}
+
+@keyframes phoenix-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}
+
+@keyframes wing-left-flap {
+  0%, 100% {
+    transform: rotate(calc(-8deg - var(--flap-boost) - var(--hover-boost))) translateY(0);
+  }
+  50% {
+    transform: rotate(calc(14deg + var(--flap-boost) + var(--hover-boost))) translateY(-1px);
+  }
+}
+
+@keyframes wing-right-flap {
+  0%, 100% {
+    transform: rotate(calc(8deg + var(--flap-boost) + var(--hover-boost))) translateY(0);
+  }
+  50% {
+    transform: rotate(calc(-14deg - var(--flap-boost) - var(--hover-boost))) translateY(-1px);
+  }
 }
 
 .brand-text {
@@ -252,9 +312,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .logo-img {
-    transition: none;
+  .logo-phoenix,
+  .logo-wing {
+    animation: none !important;
     transform: none !important;
+    filter: none !important;
   }
   .reveal,
   .reveal.in-view {
