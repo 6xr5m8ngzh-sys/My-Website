@@ -24,6 +24,7 @@ if (!reduceMotion && logoEls.length) {
   let ticking = false;
   let lastY = window.scrollY || window.pageYOffset;
   let boostTimer;
+  let flapTimer;
 
   const animateLogoOnScroll = () => {
     const scrollY = window.scrollY || window.pageYOffset;
@@ -33,12 +34,17 @@ if (!reduceMotion && logoEls.length) {
 
     logoEls.forEach((logo) => {
       logo.style.setProperty('--flap-boost', `${boost.toFixed(2)}deg`);
+      logo.classList.add('is-flapping');
     });
 
     window.clearTimeout(boostTimer);
     boostTimer = window.setTimeout(() => {
       logoEls.forEach((logo) => logo.style.setProperty('--flap-boost', '0deg'));
     }, 180);
+    window.clearTimeout(flapTimer);
+    flapTimer = window.setTimeout(() => {
+      logoEls.forEach((logo) => logo.classList.remove('is-flapping'));
+    }, 520);
 
     ticking = false;
   };
@@ -49,8 +55,6 @@ if (!reduceMotion && logoEls.length) {
       ticking = true;
     }
   }, { passive: true });
-
-  animateLogoOnScroll();
 }
 
 const revealTargets = document.querySelectorAll('.card, .feature-image, .page-head');

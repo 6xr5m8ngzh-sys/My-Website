@@ -92,18 +92,18 @@ a { color: inherit; text-decoration: none; }
 .wing-left {
   clip-path: polygon(0 0, 58% 0, 53% 100%, 0 100%);
   transform-origin: 72% 58%;
-  animation: wing-left-flap 1.25s ease-in-out infinite;
+  animation: wing-left-flap 0.65s ease-in-out 1 paused;
 }
 
 .wing-right {
   clip-path: polygon(42% 0, 100% 0, 100% 100%, 47% 100%);
   transform-origin: 28% 58%;
-  animation: wing-right-flap 1.25s ease-in-out infinite;
+  animation: wing-right-flap 0.65s ease-in-out 1 paused;
 }
 
-.brand:hover .logo-phoenix {
-  --hover-boost: 4deg;
-  filter: saturate(1.15) drop-shadow(0 6px 12px rgba(123, 74, 58, 0.25));
+.logo-phoenix.is-flapping .wing-left,
+.logo-phoenix.is-flapping .wing-right {
+  animation-play-state: running;
 }
 
 @keyframes wing-left-flap {
@@ -127,6 +127,7 @@ a { color: inherit; text-decoration: none; }
 .brand-text {
   font-size: clamp(1.35rem, 2.4vw, 1.85rem);
   font-weight: 700;
+  transform: none !important;
 }
 
 .main-nav {
