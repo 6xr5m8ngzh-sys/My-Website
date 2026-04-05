@@ -106,13 +106,14 @@ const sectionObserver = new IntersectionObserver(
 
 sections.forEach(s => sectionObserver.observe(s));
 
-// -- Kontaktformular: kein doppeltes Submit --
+// -- Kontaktformular: Submit-Button deaktivieren um doppeltes Absenden zu verhindern --
 const form = document.getElementById('contactForm');
-if (form && !form.getAttribute('action').includes('formsubmit')) {
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+if (form) {
+  form.addEventListener('submit', () => {
     const btn = form.querySelector('button[type="submit"]');
-    btn.textContent = 'Gesendet';
-    btn.disabled = true;
+    if (btn) {
+      btn.textContent = 'Wird gesendet...';
+      btn.disabled = true;
+    }
   });
 }
