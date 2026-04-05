@@ -450,7 +450,7 @@ p:last-child { margin-bottom: 0; }
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--color-border);
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   position: relative;
 }
 
@@ -459,7 +459,6 @@ p:last-child { margin-bottom: 0; }
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transform: rotate(90deg) scale(1.35);
   display: block;
 }
 
