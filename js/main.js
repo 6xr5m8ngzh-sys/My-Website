@@ -106,14 +106,35 @@ const sectionObserver = new IntersectionObserver(
 
 sections.forEach(s => sectionObserver.observe(s));
 
-// -- Kontaktformular: Submit-Button deaktivieren um doppeltes Absenden zu verhindern --
+// -- Kontaktformular: AJAX-Versand + Weiterleitung auf Danke-Seite --
 const form = document.getElementById('contactForm');
 if (form) {
-  form.addEventListener('submit', () => {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
     const btn = form.querySelector('button[type="submit"]');
-    if (btn) {
-      btn.textContent = 'Wird gesendet...';
-      btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = 'Wird gesendet...';
+    btn.disabled = true;
+
+    const data = new FormData(form);
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/karina.knapp@web.de', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: data
+      });
+
+      if (response.ok) {
+        window.location.href = 'danke.html';
+      } else {
+        throw new Error('Fehler beim Senden');
+      }
+    } catch {
+      btn.textContent = originalText;
+      btn.disabled = false;
+      alert('Es gab einen Fehler beim Senden. Bitte versuche es erneut oder kontaktiere uns per E-Mail.');
     }
   });
 }
