@@ -107,34 +107,36 @@ const sectionObserver = new IntersectionObserver(
 sections.forEach(s => sectionObserver.observe(s));
 
 // -- Kontaktformular: AJAX-Versand + Weiterleitung auf Danke-Seite --
-const form = document.getElementById('contactForm');
-if (form) {
-  form.addEventListener('submit', async (e) => {
+var contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const btn = form.querySelector('button[type="submit"]');
-    const originalText = btn.textContent;
-    btn.textContent = 'Wird gesendet...';
-    btn.disabled = true;
+    var btn = contactForm.querySelector('button[type="submit"]');
+    var originalText = btn ? btn.textContent : '';
+    if (btn) { btn.textContent = 'Wird gesendet...'; btn.disabled = true; }
 
-    const data = new FormData(form);
+    var data = new FormData(contactForm);
 
-    try {
-      const response = await fetch('https://formsubmit.co/ajax/karina.knapp@web.de', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: data
-      });
-
-      if (response.ok) {
+    fetch('https://formsubmit.co/ajax/karina.knapp@web.de', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: data
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(json) {
+      if (json && json.success === 'true') {
         window.location.href = 'danke.html';
       } else {
-        throw new Error('Fehler beim Senden');
+        throw new Error('Senden fehlgeschlagen');
       }
-    } catch {
-      btn.textContent = originalText;
-      btn.disabled = false;
-      alert('Es gab einen Fehler beim Senden. Bitte versuche es erneut oder kontaktiere uns per E-Mail.');
-    }
+    })
+    .catch(function(err) {
+      console.error('Formular-Fehler:', err);
+      if (btn) { btn.textContent = originalText; btn.disabled = false; }
+      alert('Es gab einen Fehler. Bitte sende deine Anfrage direkt an karina.knapp@web.de');
+    });
   });
 }
