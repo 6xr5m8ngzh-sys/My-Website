@@ -1,13 +1,13 @@
 /* ============================================================
-   CASA SPIRIT – JavaScript
+   CASA SPIRIT â€“ JavaScript
    ============================================================ */
 
-// ── Maps-Link: Apple vs. Google abhängig vom Gerät ──
+// â”€â”€ Maps-Link: Apple vs. Google abhÃ¤ngig vom GerÃ¤t â”€â”€
 const isApple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent) &&
   ('ontouchend' in document || navigator.maxTouchPoints > 0 ||
    /Macintosh/.test(navigator.userAgent));
 
-const appleLink  = document.getElementById('mapsLinkApple');
+const appleLink = document.getElementById('mapsLinkApple');
 const googleLink = document.getElementById('mapsLinkGoogle');
 
 if (appleLink && googleLink) {
@@ -18,14 +18,14 @@ if (appleLink && googleLink) {
   }
 }
 
-// ── Navigation: Scroll-Effekt ──
+// â”€â”€ Navigation: Scroll-Effekt â”€â”€
 const nav = document.getElementById('nav');
 const onScroll = () => {
   nav.classList.toggle('scrolled', window.scrollY > 50);
 };
 window.addEventListener('scroll', onScroll, { passive: true });
 
-// ── Mobile Burger Menü ──
+// â”€â”€ Mobile Burger MenÃ¼ â”€â”€
 const burger = document.getElementById('burger');
 const navLinks = document.getElementById('navLinks');
 
@@ -35,7 +35,7 @@ burger.addEventListener('click', () => {
   document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
 });
 
-// Menü schließen bei Link-Klick
+// MenÃ¼ schlieÃŸen bei Link-Klick
 navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
     burger.classList.remove('open');
@@ -44,7 +44,7 @@ navLinks.querySelectorAll('a').forEach(link => {
   });
 });
 
-// ── Fade-In Animation beim Scrollen ──
+// â”€â”€ Fade-In Animation beim Scrollen â”€â”€
 const fadeElements = document.querySelectorAll(
   '.service-card, .method, .about__grid, .contact__grid, .price-row, .section__header'
 );
@@ -68,7 +68,7 @@ const observer = new IntersectionObserver(
 
 fadeElements.forEach(el => observer.observe(el));
 
-// ── Aktiver Nav-Link beim Scrollen ──
+// â”€â”€ Aktiver Nav-Link beim Scrollen â”€â”€
 const sections = document.querySelectorAll('section[id]');
 const navLinksList = document.querySelectorAll('.nav__links a[href^="#"]');
 
@@ -90,35 +90,62 @@ const sectionObserver = new IntersectionObserver(
 
 sections.forEach(s => sectionObserver.observe(s));
 
-// ── Kontaktformular ──
+// â”€â”€ Kontaktformular â”€â”€
+const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/karina.mohr@web.de';
 const form = document.getElementById('contactForm');
+
 if (form) {
-  form.addEventListener('submit', (e) => {
+  const btn = form.querySelector('button[type="submit"]');
+  const status = document.getElementById('formStatus');
+
+  const setFormStatus = (message, type = '') => {
+    if (!status) return;
+    status.textContent = message;
+    status.className = `form__status${type ? ` is-${type}` : ''}`;
+  };
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const btn = form.querySelector('button[type="submit"]');
     const originalText = btn.textContent;
-    btn.textContent = 'Gesendet ✓';
-    btn.style.background = '#2a6e4a';
+    btn.textContent = 'Wird gesendet...';
     btn.disabled = true;
+    setFormStatus('Die Anfrage wird gerade verschickt...');
 
-    // Mailto-Fallback
-    const name    = form.name.value;
-    const email   = form.email.value;
-    const service = form.service.value;
-    const message = form.message.value;
+    try {
+      const response = await fetch(FORMSUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json'
+        },
+        body: new FormData(form)
+      });
 
-    const subject = encodeURIComponent(`Anfrage von ${name} – ${service || 'Allgemein'}`);
-    const body    = encodeURIComponent(
-      `Name: ${name}\nE-Mail: ${email}\nLeistung: ${service}\n\nNachricht:\n${message}`
-    );
+      const result = await response.json();
+
+      if (!response.ok || (result.success !== 'true' && result.success !== true)) {
+        throw new Error('FormSubmit konnte die Anfrage nicht verarbeiten.');
+      }
+
+      btn.textContent = 'Gesendet ✓';
+      setFormStatus(
+        'Vielen Dank. Deine Anfrage wurde gesendet und per E-Mail weitergeleitet.',
+        'success'
+      );
+      form.reset();
+    } catch (error) {
+      btn.textContent = originalText;
+      btn.disabled = false;
+      setFormStatus(
+        'Das Senden hat gerade nicht funktioniert. Bitte versuche es erneut oder schreibe direkt an karina.mohr@web.de.',
+        'error'
+      );
+      return;
+    }
 
     setTimeout(() => {
-      window.location.href = `mailto:karina.knapp@web.de?subject=${subject}&body=${body}`;
       btn.textContent = originalText;
-      btn.style.background = '';
       btn.disabled = false;
-      form.reset();
-    }, 800);
+    }, 2400);
   });
 }

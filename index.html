@@ -386,7 +386,13 @@
           </div>
         </div>
         <div class="contact__form-wrap">
-          <form class="contact__form" id="contactForm">
+          <form class="contact__form" id="contactForm" action="https://formsubmit.co/karina.mohr@web.de" method="POST">
+            <input type="hidden" name="_subject" value="Neue Kontaktanfrage über Casa Spirit" />
+            <input type="hidden" name="_template" value="table" />
+            <div class="form-group form-group--hidden" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="_honey" tabindex="-1" autocomplete="off" />
+            </div>
             <div class="form-group">
               <label for="name">Name</label>
               <input type="text" id="name" name="name" placeholder="Dein vollständiger Name" required />
@@ -417,6 +423,7 @@
               <textarea id="message" name="message" rows="4" placeholder="Erzähl mir kurz, womit ich dir helfen kann …"></textarea>
             </div>
             <button type="submit" class="btn btn--primary btn--full">Anfrage senden</button>
+            <p class="form__status" id="formStatus" aria-live="polite"></p>
             <p class="form__note">
               Diese Arbeit ersetzt keinen Arzt oder Therapeuten.
             </p>
