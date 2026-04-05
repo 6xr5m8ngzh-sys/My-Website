@@ -2,6 +2,22 @@
    CASA SPIRIT – JavaScript
    ============================================================ */
 
+// ── Maps-Link: Apple vs. Google abhängig vom Gerät ──
+const isApple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent) &&
+  ('ontouchend' in document || navigator.maxTouchPoints > 0 ||
+   /Macintosh/.test(navigator.userAgent));
+
+const appleLink  = document.getElementById('mapsLinkApple');
+const googleLink = document.getElementById('mapsLinkGoogle');
+
+if (appleLink && googleLink) {
+  if (isApple) {
+    appleLink.removeAttribute('hidden');
+  } else {
+    googleLink.removeAttribute('hidden');
+  }
+}
+
 // ── Navigation: Scroll-Effekt ──
 const nav = document.getElementById('nav');
 const onScroll = () => {
