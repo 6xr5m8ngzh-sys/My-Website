@@ -3,12 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0d0b14" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Casa Spirit" />
+  <meta property="og:title" content="Casa Spirit - Energetische Heilarbeit" />
+  <meta property="og:description" content="Energetische Heilarbeit, MFL, Matrix-Inform und ganzheitliche Begleitung in Hoppstaedten-Weiersbach." />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Casa Spirit - Energetische Heilarbeit" />
+  <meta name="twitter:description" content="Energetische Heilarbeit, MFL, Matrix-Inform und ganzheitliche Begleitung in Hoppstaedten-Weiersbach." />
   <meta name="description" content="Casa Spirit – Energetische Heilarbeit mit Karina Mohr. Matrix-Inform, MFL, Rückführungen und mehr in Hoppstädten-Weiersbach." />
   <title>Casa Spirit – Energetische Heilarbeit</title>
+  <link rel="canonical" href="index.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/png" href="img/logo-192.png" />
+  <link rel="apple-touch-icon" href="img/logo-192.png" />
+  <link rel="manifest" href="site.webmanifest" />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HealthAndBeautyBusiness",
+      "name": "Casa Spirit GbR",
+      "description": "Energetische Heilarbeit mit Karina Mohr in Hoppstaedten-Weiersbach.",
+      "email": "karina.knapp@web.de",
+      "telephone": ["+49 175 7420677", "+49 6782 989903"],
+      "priceRange": "70 EUR - 150 EUR",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Ringstrasse 25",
+        "postalCode": "55768",
+        "addressLocality": "Hoppstaedten-Weiersbach",
+        "addressCountry": "DE"
+      },
+      "sameAs": [
+        "https://wa.me/c/491757420677"
+      ]
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Wie laeuft eine Sitzung bei Casa Spirit ab?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Jede Sitzung beginnt mit einem kurzen Vorgespraech. Danach wird die Begleitung individuell auf dein Anliegen abgestimmt, vor Ort oder als Fernbehandlung."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Sind Fernbehandlungen moeglich?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. Fernbehandlungen sind moeglich und werden individuell abgestimmt. Laut Website erfolgen sie gegen Vorkasse."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wie kann ich einen Termin anfragen?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Terminanfragen sind ueber das Kontaktformular, telefonisch, per E-Mail oder ueber WhatsApp moeglich."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Was kostet eine Sitzung?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Einzelgespraeche und Fernbehandlungen starten bei 70 Euro. Weitere Leistungen und Preise sind transparent auf der Website aufgelistet."
+          }
+        }
+      ]
+    }
+  </script>
 </head>
 <body>
 
@@ -16,9 +92,9 @@
   <nav class="nav" id="nav">
     <div class="nav__inner">
       <a href="#home" class="nav__logo">
-        <img src="img/logo.png" alt="Casa Spirit Logo" class="nav__logo-img" />
+        <img src="img/logo-256.png" alt="Casa Spirit Logo" class="nav__logo-img" width="256" height="199" decoding="async" />
       </a>
-      <button class="nav__burger" id="burger" aria-label="Menü öffnen">
+      <button class="nav__burger" id="burger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
       <ul class="nav__links" id="navLinks">
@@ -71,7 +147,7 @@
       <div class="about__grid">
         <div class="about__visual">
           <div class="about__photo-wrap">
-            <img src="img/karina-mohr.jpeg" alt="Karina Mohr in ihrer Praxis" class="about__photo" />
+            <img src="img/karina-mohr-1600.jpg" alt="Karina Mohr in ihrer Praxis" class="about__photo" width="1600" height="1200" loading="lazy" decoding="async" />
           </div>
           <div class="about__badge">
             <span>Karina Mohr · Casa Spirit GbR</span>
@@ -380,7 +456,7 @@
               <div class="contact__item-icon">◎</div>
               <div>
                 <strong>E-Mail</strong>
-                <p><a href="mailto:karina.mohr@web.de">karina.mohr@web.de</a></p>
+                <p><a href="mailto:karina.knapp@web.de">karina.knapp@web.de</a></p>
               </div>
             </div>
           </div>
@@ -396,15 +472,15 @@
             </div>
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" id="name" name="name" placeholder="Dein vollständiger Name" required />
+              <input type="text" id="name" name="name" placeholder="Dein vollständiger Name" autocomplete="name" required />
             </div>
             <div class="form-group">
               <label for="email">E-Mail</label>
-              <input type="email" id="email" name="email" placeholder="deine@email.de" required />
+              <input type="email" id="email" name="email" placeholder="deine@email.de" autocomplete="email" required />
             </div>
             <div class="form-group">
               <label for="phone">Telefon (optional)</label>
-              <input type="tel" id="phone" name="phone" placeholder="+49 ..." />
+              <input type="tel" id="phone" name="phone" placeholder="+49 ..." autocomplete="tel" />
             </div>
             <div class="form-group">
               <label for="service">Leistung</label>
@@ -421,9 +497,10 @@
             </div>
             <div class="form-group">
               <label for="message">Nachricht</label>
-              <textarea id="message" name="message" rows="4" placeholder="Erzähl mir kurz, womit ich dir helfen kann …"></textarea>
+              <textarea id="message" name="message" rows="4" placeholder="Erzähl mir kurz, womit ich dir helfen kann …" required></textarea>
             </div>
             <button type="submit" class="btn btn--primary btn--full">Anfrage senden</button>
+            <p class="form__status" id="formStatus" aria-live="polite"></p>
             <p class="form__note">
               Diese Arbeit ersetzt keinen Arzt oder Therapeuten.
             </p>
@@ -433,12 +510,50 @@
     </div>
   </section>
 
+  <section class="faq section" id="faq">
+    <div class="container">
+      <div class="section__header">
+        <div class="section__label">FAQ</div>
+        <h2 class="section__title">Häufige <em>Fragen</em></h2>
+        <p class="section__desc">
+          Die wichtigsten Antworten zu Ablauf, Fernbehandlung, Preisen und Terminvereinbarung.
+        </p>
+      </div>
+      <div class="faq__list">
+        <details class="faq-item">
+          <summary>Wie läuft eine Sitzung ab?</summary>
+          <div class="faq-item__content">
+            <p>Wir starten mit einem kurzen Vorgespräch und klären dein Anliegen. Danach wird die Begleitung individuell auf dich und dein Thema abgestimmt.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Sind Fernbehandlungen möglich?</summary>
+          <div class="faq-item__content">
+            <p>Ja. Fernbehandlungen sind möglich und werden individuell abgestimmt. Laut Website erfolgen sie gegen Vorkasse.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Was kostet eine Sitzung?</summary>
+          <div class="faq-item__content">
+            <p>Einzelgespräche und Fernbehandlungen starten bei 70 Euro. Weitere Leistungen und Preise findest du transparent im Preisbereich auf der Startseite.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Wie kann ich einen Termin anfragen?</summary>
+          <div class="faq-item__content">
+            <p>Du kannst das Kontaktformular nutzen, anrufen, eine E-Mail an karina.knapp@web.de senden oder dich über WhatsApp melden.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <div class="footer__top">
         <div class="footer__brand">
-          <img src="img/logo.png" alt="Casa Spirit" class="footer__logo-img" />
+          <img src="img/logo-256.png" alt="Casa Spirit" class="footer__logo-img" width="256" height="199" loading="lazy" decoding="async" />
         </div>
         <nav class="footer__nav">
           <a href="#about">Über mich</a>

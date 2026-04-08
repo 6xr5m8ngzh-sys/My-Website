@@ -33,18 +33,22 @@ const burger   = document.getElementById('burger');
 const navLinks = document.getElementById('navLinks');
 
 if (burger && navLinks) {
-  burger.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
+  const setMenuState = (isOpen) => {
+    navLinks.classList.toggle('open', isOpen);
     burger.classList.toggle('open', isOpen);
+    burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    burger.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
     document.body.style.overflow = isOpen ? 'hidden' : '';
+  };
+
+  burger.addEventListener('click', () => {
+    setMenuState(!navLinks.classList.contains('open'));
   });
 
   // Menue schliessen bei Link-Klick
   navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      burger.classList.remove('open');
-      document.body.style.overflow = '';
+      setMenuState(false);
     });
   });
 
@@ -53,11 +57,18 @@ if (burger && navLinks) {
     if (navLinks.classList.contains('open') &&
         !navLinks.contains(e.target) &&
         !burger.contains(e.target)) {
-      navLinks.classList.remove('open');
-      burger.classList.remove('open');
-      document.body.style.overflow = '';
+      setMenuState(false);
     }
   });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+      setMenuState(false);
+      burger.focus();
+    }
+  });
+
+  setMenuState(false);
 }
 
 // -- Fade-In Animation beim Scrollen --
@@ -70,51 +81,67 @@ fadeElements.forEach((el, i) => {
   if (i % 6 > 0) el.classList.add('fade-in-delay-' + (i % 5 + 1));
 });
 
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-);
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+  );
 
-fadeElements.forEach(el => observer.observe(el));
+  fadeElements.forEach(el => observer.observe(el));
+} else {
+  fadeElements.forEach(el => el.classList.add('visible'));
+}
 
 // -- Aktiver Nav-Link beim Scrollen --
 const sections     = document.querySelectorAll('section[id]');
 const navLinksList = document.querySelectorAll('.nav__links a[href^="#"]');
 
-const sectionObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.getAttribute('id');
-        navLinksList.forEach(link => {
-          link.style.color = link.getAttribute('href') === '#' + id
-            ? 'var(--color-primary)'
-            : '';
-        });
-      }
-    });
-  },
-  { threshold: 0.4 }
-);
+if ('IntersectionObserver' in window) {
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinksList.forEach(link => {
+            link.style.color = link.getAttribute('href') === '#' + id
+              ? 'var(--color-primary)'
+              : '';
+          });
+        }
+      });
+    },
+    { threshold: 0.4 }
+  );
 
-sections.forEach(s => sectionObserver.observe(s));
+  sections.forEach(s => sectionObserver.observe(s));
+}
 
 // -- Kontaktformular: AJAX-Versand + Weiterleitung auf Danke-Seite --
 var contactForm = document.getElementById('contactForm');
 if (contactForm) {
+  var formStatus = document.getElementById('formStatus');
+
+  function setFormStatus(message, type) {
+    if (!formStatus) return;
+    formStatus.textContent = message;
+    formStatus.className = 'form__status' + (type ? ' is-' + type : '');
+  }
+
   contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
     var btn = contactForm.querySelector('button[type="submit"]');
     var originalText = btn ? btn.textContent : '';
     if (btn) { btn.textContent = 'Wird gesendet...'; btn.disabled = true; }
+    contactForm.setAttribute('aria-busy', 'true');
+    setFormStatus('Die Anfrage wird verschickt...');
 
     var data = new FormData(contactForm);
 
@@ -127,8 +154,11 @@ if (contactForm) {
       return response.json();
     })
     .then(function(json) {
-      if (json && json.success === 'true') {
-        window.location.href = 'danke.html';
+      if (json && (json.success === 'true' || json.success === true)) {
+        setFormStatus('Vielen Dank. Die Anfrage wurde erfolgreich gesendet.', 'success');
+        window.setTimeout(function() {
+          window.location.href = 'danke.html';
+        }, 300);
       } else {
         throw new Error('Senden fehlgeschlagen');
       }
@@ -136,7 +166,13 @@ if (contactForm) {
     .catch(function(err) {
       console.error('Formular-Fehler:', err);
       if (btn) { btn.textContent = originalText; btn.disabled = false; }
-      alert('Es gab einen Fehler. Bitte sende deine Anfrage direkt an karina.knapp@web.de');
+      setFormStatus(
+        'Das Senden hat gerade nicht funktioniert. Bitte schreibe alternativ an karina.knapp@web.de.',
+        'error'
+      );
+    })
+    .finally(function() {
+      contactForm.removeAttribute('aria-busy');
     });
   });
 }
