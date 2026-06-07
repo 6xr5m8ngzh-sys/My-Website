@@ -6,6 +6,11 @@
 const isApple = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
   (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 0) ||
   /Macintosh/.test(navigator.userAgent);
+const isWindows = /Windows/i.test(navigator.userAgent);
+
+if (isWindows) {
+  document.body.classList.add('platform-windows');
+}
 
 const appleLink  = document.getElementById('mapsLinkApple');
 const googleLink = document.getElementById('mapsLinkGoogle');

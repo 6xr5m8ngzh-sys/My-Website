@@ -66,6 +66,21 @@
   color: var(--color-text-muted);
 }
 
+.platform-windows .page-hero {
+  padding-top: 9.5rem;
+}
+
+.platform-windows .page-hero__title {
+  font-size: clamp(2.3rem, 5.5vw, 4.5rem);
+  line-height: 1.02;
+}
+
+.platform-windows .page-hero__desc {
+  max-width: 540px;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
 /* ── Cards Grid ── */
 .cards-grid {
   display: grid;
